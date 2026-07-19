@@ -86,16 +86,19 @@ export function CasesTab({ cases, level, solvedIds, deniedCase, onOpenCase }: Ca
         <motion.button
           type="button"
           onClick={() => onOpenCase(nextCase.id, nextCase.level)}
-          initial={reduceMotion ? false : { opacity: 0, scale: 0.7 }}
-          animate={{ opacity: 1, scale: 1 }}
-          whileTap={reduceMotion ? undefined : { scale: 0.92 }}
-          transition={{ type: "spring", stiffness: 400, damping: 24 }}
-          className="fixed bottom-[104px] left-1/2 z-40 flex -translate-x-1/2 flex-col items-center gap-1 rounded-full bg-crime-scene-red-bright px-6 py-3 shadow-stacked"
-          style={{ boxShadow: "0 10px 30px rgba(165,47,40,0.5), 0 2px 3px rgba(0,0,0,0.65)" }}
+          initial={reduceMotion ? false : { opacity: 0, y: 20, rotate: -10 }}
+          animate={{ opacity: 1, y: 0, rotate: -2 }}
+          whileTap={reduceMotion ? undefined : { scale: 0.94, rotate: 0 }}
+          transition={{ type: "spring", stiffness: 380, damping: 22 }}
+          className="fixed bottom-[100px] left-1/2 z-40 -translate-x-1/2 rounded-[2px] bg-crime-scene-red-bright px-5 py-2.5"
+          style={{ boxShadow: "0 10px 26px rgba(165,47,40,0.45), 0 2px 3px rgba(0,0,0,0.65)" }}
           aria-label={`Investigate ${nextCase.title}`}
         >
-          <Search className="h-5 w-5 text-bone" />
-          <span className="font-typewriter text-[10px] tracking-[1px] text-bone">INVESTIGATE</span>
+          <span className="absolute left-1/2 -top-2 h-3 w-3 -translate-x-1/2 rounded-full bg-ink shadow-pin-drop" />
+          <span className="flex items-center gap-1.5">
+            <Search className="h-4 w-4 shrink-0 text-bone" strokeWidth={1.5} />
+            <span className="font-typewriter text-[11px] tracking-[1px] text-bone">INVESTIGATE</span>
+          </span>
         </motion.button>
       )}
     </div>

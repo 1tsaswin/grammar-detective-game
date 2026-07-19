@@ -68,7 +68,7 @@ export function BottomNav({ active, onChange, onOpenSettings }: BottomNavProps) 
                 <Icon className={`h-5 w-5 ${isActive ? "text-crime-scene-red-bright" : "text-bone/40"}`} />
               </motion.span>
               <span
-                className={`relative z-10 font-typewriter text-[8px] tracking-[0.5px] ${
+                className={`relative z-10 w-full truncate px-0.5 text-center font-typewriter text-[8px] tracking-[0.5px] ${
                   isActive ? "text-crime-scene-red-bright" : "text-bone/40"
                 }`}
               >
@@ -88,7 +88,9 @@ export function BottomNav({ active, onChange, onOpenSettings }: BottomNavProps) 
           className="flex min-h-[56px] min-w-[48px] flex-1 flex-col items-center justify-center gap-1 py-2"
         >
           <Settings className="h-5 w-5 text-bone/40" />
-          <span className="font-typewriter text-[8px] tracking-[0.5px] text-bone/40">SETTINGS</span>
+          <span className="w-full truncate px-0.5 text-center font-typewriter text-[8px] tracking-[0.5px] text-bone/40">
+            SETTINGS
+          </span>
         </button>
       </div>
     </div>

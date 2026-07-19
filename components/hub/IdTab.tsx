@@ -22,9 +22,9 @@ interface IdTabProps {
 
 function StatTile({ value, label }: { value: string | number; label: string }) {
   return (
-    <div className="flex-1 rounded-md bg-aged-paper-light px-2 py-3 text-center shadow-lifted">
+    <div className="flex-1 rounded-[2px] border-t-2 border-crime-scene-red bg-aged-paper-light px-2 py-3 text-center shadow-lifted">
       <div className="text-xl font-bold text-ink">{value}</div>
-      <div className="mt-0.5 text-[9px] tracking-[0.5px] text-ink/60">{label}</div>
+      <div className="mt-0.5 font-typewriter text-[9px] tracking-[1px] text-ink/60">{label}</div>
     </div>
   );
 }

@@ -85,6 +85,52 @@
   background-size: var(--texture-corkboard-size);
 }
 
+/* Brass panel-dial slider — replaces the bare browser range input with a
+   recessed groove and a riveted brass knob, filled via the --fill custom
+   property each consumer sets inline from its own value. */
+.dial-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    var(--crime-scene-red-bright) var(--fill, 50%),
+    rgba(0, 0, 0, 0.4) var(--fill, 50%)
+  );
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+.dial-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.45);
+  background: radial-gradient(circle at 35% 30%, var(--post-it-yellow-light), var(--post-it-yellow-dark) 75%);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+.dial-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.45);
+  background: radial-gradient(circle at 35% 30%, var(--post-it-yellow-light), var(--post-it-yellow-dark) 75%);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+.dial-slider::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: transparent;
+}
+.dial-slider::-moz-range-progress {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--crime-scene-red-bright);
+}
+
 body {
   margin: 0;
   font-family: var(--font-officials);

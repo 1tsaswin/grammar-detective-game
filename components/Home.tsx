@@ -101,6 +101,7 @@ export default function Home() {
   const [showIntro, setShowIntro] = useState(true);
   const isFirstScreenRender = useRef(true);
   const prevScreenRef = useRef<Screen>("entry");
+  const guessLenRef = useRef(0);
 
   const { play } = useSound();
   const { vibrate } = useHaptic();
@@ -158,7 +159,27 @@ export default function Home() {
     setTimeout(() => setDeniedCase(null), 400);
   }
 
+  function selectTitle(t: DetectiveTitle) {
+    play("tap");
+    vibrate("tap");
+    setTitle(t);
+  }
+
+  function selectAvatar(i: number) {
+    play("tap");
+    vibrate("tap");
+    setAvatarIdx(i);
+  }
+
+  function handleGuessChange(value: string) {
+    if (Math.abs(value.length - guessLenRef.current) === 1) play("type");
+    guessLenRef.current = value.length;
+    setGuess(value);
+  }
+
   function handleWordClick(suspectId: string, wordIdx: number) {
+    play("select");
+    vibrate("tap");
     setSelection({ suspectId, wordIdx });
     setGuess("");
     setFeedback(null);
@@ -167,23 +188,31 @@ export default function Home() {
   function handleSubmitGuess() {
     if (!currentCase || !selection || !guiltySuspect) return;
     if (selection.suspectId !== guiltySuspect.id) {
+      play("error");
+      vibrate("error");
       setFeedback("wrongsuspect");
       setAttempts((n) => n + 1);
       setStreak(0);
       return;
     }
     if (selection.wordIdx !== guiltySuspect.errorIdx) {
+      play("error");
+      vibrate("error");
       setFeedback("wrongword");
       setAttempts((n) => n + 1);
       setStreak(0);
       return;
     }
     if (stripPunct(guess.trim().toLowerCase()) !== (guiltySuspect.correctWord ?? "").toLowerCase()) {
+      play("error");
+      vibrate("error");
       setFeedback("wrongguess");
       setAttempts((n) => n + 1);
       setStreak(0);
       return;
     }
+    play("correct");
+    vibrate("success");
     setFeedback(null);
 
     const prevLevel = level;
@@ -213,6 +242,7 @@ export default function Home() {
 
     setTimeout(() => {
       setScreen("closed");
+      setTimeout(() => play("stamp"), 260);
       pushToast({ kind: "xp", title: `+${solvedCase.xp} XP`, subtitle: solvedCase.title });
 
       if (newLevel > prevLevel) {
@@ -231,6 +261,7 @@ export default function Home() {
         const was = a.isUnlocked({ level: prevLevel, caseHistoryCount: prevCount, totalCases: CASES.length });
         const now = a.isUnlocked({ level: newLevel, caseHistoryCount: newCount, totalCases: CASES.length });
         if (!was && now) {
+          play("achievement");
           pushToast({ kind: "achievement", title: a.title, subtitle: a.description });
         }
       });
@@ -250,7 +281,7 @@ export default function Home() {
 
   return (
     <div
-      className="bg-corkboard relative flex min-h-screen w-full justify-center overflow-hidden box-border"
+      className="bg-corkboard relative flex h-dvh w-full justify-center overflow-x-hidden overflow-y-auto box-border"
       style={{ filter: `brightness(${brightness}%)` }}
     >
       <AmbientParticles />
@@ -326,7 +357,7 @@ export default function Home() {
         }}
       />
       <div
-        className="relative z-[2] flex w-full max-w-[430px] min-h-screen flex-col box-border font-officials"
+        className="relative z-[2] flex w-full max-w-[430px] min-h-dvh flex-col box-border font-officials"
         style={{ zoom: ZOOM_BY_TEXT_SIZE[textSize] }}
       >
         {screen === "hub" && (
@@ -466,7 +497,7 @@ export default function Home() {
                       {(["Rookie", "Investigator", "Sherlock"] as const).map((t) => (
                         <div
                           key={t}
-                          onClick={() => setTitle(t)}
+                          onClick={() => selectTitle(t)}
                           className={title === t ? TITLE_SELECTED : TITLE_BASE}
                         >
                           {t.toUpperCase()}
@@ -480,7 +511,7 @@ export default function Home() {
                       {AVATAR_TINTS.map((tint, i) => (
                         <div
                           key={i}
-                          onClick={() => setAvatarIdx(i)}
+                          onClick={() => selectAvatar(i)}
                           className="h-10 w-10 cursor-pointer rounded transition-transform hover:scale-110"
                           style={{
                             background: tint,
@@ -508,7 +539,14 @@ export default function Home() {
 
             {screen === "casedetail" && currentCase && (
               <div className="flex flex-1 flex-col gap-5 pt-2">
-                <div onClick={() => goHub("cases")} className="cursor-pointer text-xs text-bone/60">
+                <div
+                  onClick={() => {
+                    play("tap");
+                    vibrate("tap");
+                    goHub("cases");
+                  }}
+                  className="cursor-pointer text-xs text-bone/60"
+                >
                   ← CASE FILES
                 </div>
                 <div
@@ -534,7 +572,11 @@ export default function Home() {
             {screen === "play" && currentCase && (
               <div className="flex flex-1 flex-col gap-4 pt-2">
                 <div
-                  onClick={() => setScreen("casedetail")}
+                  onClick={() => {
+                    play("tap");
+                    vibrate("tap");
+                    setScreen("casedetail");
+                  }}
                   className="cursor-pointer self-start text-xs text-bone/60"
                 >
                   ← {currentCase.title}
@@ -607,12 +649,14 @@ export default function Home() {
                     </div>
                     <input
                       value={guess}
-                      onChange={(e) => setGuess(e.target.value)}
+                      onChange={(e) => handleGuessChange(e.target.value)}
                       placeholder="……………"
                       className="w-full border-0 border-b-2 border-ink/30 bg-transparent px-1 py-2 font-typewriter text-base tracking-wide text-ink placeholder:text-ink/30 focus:border-crime-scene-red focus:outline-none"
                     />
                     <AnimatedButton
                       onClick={handleSubmitGuess}
+                      sound="none"
+                      haptic="none"
                       className="mt-3 w-full rounded-[3px] bg-primary-noir p-3 text-center font-typewriter text-[13px] tracking-[1px] text-bone hover:brightness-[1.15]"
                       style={{ animation: "glowPulse 2s ease-in-out infinite" }}
                     >

@@ -29,4 +29,17 @@ export function modalVariants(instant: boolean): Variants {
   };
 }
 
+// A drawer/panel that slides up from the bottom edge, like pulling out a
+// cabinet drawer, rather than a card fading/scaling in from the center.
+export function drawerVariants(instant: boolean): Variants {
+  if (instant) {
+    return { initial: { y: 0 }, animate: { y: 0 }, exit: { y: 0 } };
+  }
+  return {
+    initial: { y: "100%" },
+    animate: { y: 0, transition: { type: "spring", stiffness: 320, damping: 32 } },
+    exit: { y: "100%", transition: { duration: 0.22, ease: "easeIn" } },
+  };
+}
+
 export const tapScale = { scale: 0.96 };

@@ -3,7 +3,7 @@
 import { useState, type PointerEvent, type ReactNode } from "react";
 import { motion, type HTMLMotionProps } from "framer-motion";
 import { useSettingsStore } from "@/store/settingsStore";
-import { useSound } from "@/hooks/useSound";
+import { useSound, type SoundKind } from "@/hooks/useSound";
 import { useHaptic } from "@/hooks/useHaptic";
 
 interface Ripple {
@@ -17,7 +17,7 @@ let rippleSeq = 0;
 
 interface AnimatedButtonProps extends Omit<HTMLMotionProps<"button">, "onClick" | "children"> {
   onClick?: () => void;
-  sound?: "tap" | "success" | "error" | "levelup" | "none";
+  sound?: SoundKind | "none";
   haptic?: "tap" | "success" | "error" | "none";
   children?: ReactNode;
 }
@@ -71,7 +71,7 @@ export function AnimatedButton({
       {ripples.map((r) => (
         <motion.span
           key={r.id}
-          className="pointer-events-none absolute rounded-full bg-white/25"
+          className="pointer-events-none absolute rounded-full"
           style={{
             left: r.x,
             top: r.y,
@@ -79,10 +79,13 @@ export function AnimatedButton({
             height: r.size,
             marginLeft: -r.size / 2,
             marginTop: -r.size / 2,
+            background:
+              "radial-gradient(circle, rgba(246,241,227,0.32) 0%, rgba(246,241,227,0.1) 55%, transparent 75%)",
+            filter: "blur(2px)",
           }}
-          initial={{ scale: 0, opacity: 0.5 }}
-          animate={{ scale: 1, opacity: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          initial={{ scale: 0.3, opacity: 0 }}
+          animate={{ scale: 1, opacity: [0, 1, 0] }}
+          transition={{ duration: 0.55, times: [0, 0.35, 1], ease: "easeOut" }}
         />
       ))}
     </motion.button>

@@ -14,10 +14,10 @@ const ICONS: Record<ToastItem["kind"], typeof Sparkles> = {
 };
 
 const ACCENTS: Record<ToastItem["kind"], string> = {
-  xp: "border-post-it-yellow/60 text-post-it-yellow",
-  levelup: "border-crime-scene-red-bright/60 text-crime-scene-red-bright",
-  achievement: "border-crime-scene-red-bright/60 text-crime-scene-red-bright",
-  info: "border-bone/30 text-bone",
+  xp: "border-post-it-yellow-dark text-crime-scene-red",
+  levelup: "border-crime-scene-red text-crime-scene-red",
+  achievement: "border-crime-scene-red text-crime-scene-red",
+  info: "border-ink/25 text-ink/70",
 };
 
 function ToastRow({ toast }: { toast: ToastItem }) {
@@ -33,17 +33,17 @@ function ToastRow({ toast }: { toast: ToastItem }) {
   return (
     <motion.div
       layout
-      initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -16, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -12, scale: 0.95 }}
-      transition={{ type: "spring", stiffness: 400, damping: 28 }}
+      initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -10, scale: 1.5, rotate: -4 }}
+      animate={{ opacity: 1, y: 0, scale: 1, rotate: -1 }}
+      exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.9, rotate: 2 }}
+      transition={{ type: "spring", stiffness: 420, damping: 24 }}
       onClick={() => dismiss(toast.id)}
-      className={`pointer-events-auto flex items-center gap-3 rounded-xl border bg-primary-noir/90 px-4 py-3 shadow-lifted backdrop-blur-md ${ACCENTS[toast.kind]}`}
+      className={`pointer-events-auto flex items-center gap-3 rounded-[2px] border-2 bg-aged-paper-light px-4 py-3 shadow-stacked ${ACCENTS[toast.kind]}`}
     >
-      <Icon className="h-5 w-5 shrink-0" />
+      <Icon className="h-5 w-5 shrink-0" strokeWidth={1.5} />
       <div className="min-w-0">
-        <div className="truncate font-typewriter text-[13px] tracking-[0.5px] text-bone">{toast.title}</div>
-        {toast.subtitle && <div className="truncate text-[11px] text-bone/60">{toast.subtitle}</div>}
+        <div className="truncate font-typewriter text-[13px] tracking-[0.5px] text-ink">{toast.title}</div>
+        {toast.subtitle && <div className="truncate text-[11px] text-ink/60">{toast.subtitle}</div>}
       </div>
     </motion.div>
   );

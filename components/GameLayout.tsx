@@ -34,7 +34,7 @@ export function GameLayout({ rankName, level, xpIntoLevel, activeTab, onTabChang
   const reduceMotion = useSettingsStore((s) => s.reduceMotion);
 
   return (
-    <div className="relative mx-auto flex min-h-screen w-full max-w-[430px] flex-col">
+    <div className="relative mx-auto flex min-h-dvh w-full max-w-[430px] flex-col">
       {!reduceMotion && (
         <>
           <video
