@@ -37,10 +37,10 @@ export function BottomNav({ active, onChange, onOpenSettings }: BottomNavProps) 
 
   return (
     <div
-      className="sticky bottom-0 z-30 w-full border-t border-white/10 bg-primary-noir/85 shadow-[0_-8px_24px_rgba(0,0,0,0.5)] backdrop-blur-md box-border"
-      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      className="sticky bottom-0 z-30 w-full bg-primary-noir/95 shadow-[0_-8px_24px_rgba(0,0,0,0.5)] box-border"
+      style={{ borderTop: "2px solid var(--post-it-yellow-dark)", paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      <div className="flex w-full items-stretch justify-between px-2">
+      <div className="flex w-full items-end justify-between px-2 pt-2">
         {TABS.map((tab) => {
           const isActive = tab.id === active;
           const Icon = tab.icon;
@@ -51,29 +51,29 @@ export function BottomNav({ active, onChange, onOpenSettings }: BottomNavProps) 
               onClick={() => select(tab.id)}
               aria-current={isActive ? "page" : undefined}
               aria-label={tab.label}
-              className="relative flex min-h-[56px] min-w-[48px] flex-1 flex-col items-center justify-center gap-1 py-2"
+              className="relative flex min-h-[56px] min-w-[48px] flex-1 flex-col items-end justify-end"
             >
-              {isActive && (
-                <motion.div
-                  layoutId="bottomNavIndicator"
-                  className="absolute inset-x-2 top-1 h-8 rounded-lg bg-crime-scene-red-bright/15 ring-1 ring-crime-scene-red-bright/40"
-                  transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 500, damping: 32 }}
+              <motion.div
+                animate={{ y: isActive ? -8 : 0 }}
+                transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 500, damping: 32 }}
+                className="flex w-full flex-col items-center gap-1 rounded-t-[3px] px-1 py-2"
+                style={{
+                  background: isActive ? "var(--aged-paper-light)" : "transparent",
+                  boxShadow: isActive ? "0 -3px 8px rgba(0,0,0,0.4)" : "none",
+                }}
+              >
+                <Icon
+                  className="h-5 w-5"
+                  strokeWidth={1.75}
+                  style={{ color: isActive ? "var(--crime-scene-red)" : "var(--bone)", opacity: isActive ? 1 : 0.4 }}
                 />
-              )}
-              <motion.span
-                animate={isActive ? { scale: 1.12, y: -1 } : { scale: 1, y: 0 }}
-                transition={{ type: "spring", stiffness: 500, damping: 22 }}
-                className="relative z-10"
-              >
-                <Icon className={`h-5 w-5 ${isActive ? "text-crime-scene-red-bright" : "text-bone/40"}`} />
-              </motion.span>
-              <span
-                className={`relative z-10 w-full truncate px-0.5 text-center font-typewriter text-[8px] tracking-[0.5px] ${
-                  isActive ? "text-crime-scene-red-bright" : "text-bone/40"
-                }`}
-              >
-                {tab.label.toUpperCase()}
-              </span>
+                <span
+                  className="w-full truncate px-0.5 text-center font-typewriter text-[8px] tracking-[0.5px]"
+                  style={{ color: isActive ? "var(--ink)" : "rgba(246,241,227,0.4)" }}
+                >
+                  {tab.label.toUpperCase()}
+                </span>
+              </motion.div>
             </button>
           );
         })}
@@ -85,12 +85,14 @@ export function BottomNav({ active, onChange, onOpenSettings }: BottomNavProps) 
             onOpenSettings();
           }}
           aria-label="Settings"
-          className="flex min-h-[56px] min-w-[48px] flex-1 flex-col items-center justify-center gap-1 py-2"
+          className="relative flex min-h-[56px] min-w-[48px] flex-1 flex-col items-end justify-end"
         >
-          <Settings className="h-5 w-5 text-bone/40" />
-          <span className="w-full truncate px-0.5 text-center font-typewriter text-[8px] tracking-[0.5px] text-bone/40">
-            SETTINGS
-          </span>
+          <div className="flex w-full flex-col items-center gap-1 px-1 py-2">
+            <Settings className="h-5 w-5 text-bone/40" strokeWidth={1.75} />
+            <span className="w-full truncate px-0.5 text-center font-typewriter text-[8px] tracking-[0.5px] text-bone/40">
+              SETTINGS
+            </span>
+          </div>
         </button>
       </div>
     </div>

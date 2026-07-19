@@ -507,20 +507,19 @@ export default function Home() {
                   </div>
                   <div>
                     <label className="mb-2 block text-[11px] text-ink/65">AVATAR</label>
-                    <div className="flex gap-2.5">
+                    <div className="flex gap-3">
                       {AVATAR_TINTS.map((tint, i) => (
                         <div
                           key={i}
                           onClick={() => selectAvatar(i)}
-                          className="h-10 w-10 cursor-pointer rounded transition-transform hover:scale-110"
+                          className="cursor-pointer rounded-[2px] bg-bone p-1 shadow-photo transition-transform hover:scale-105"
                           style={{
-                            background: tint,
-                            boxShadow:
-                              avatarIdx === i
-                                ? "0 0 0 2px var(--bone), 0 0 0 4px var(--crime-scene-red-bright)"
-                                : "none",
+                            outline: avatarIdx === i ? "2px solid var(--crime-scene-red-bright)" : "2px solid transparent",
+                            outlineOffset: 2,
                           }}
-                        />
+                        >
+                          <div className="h-9 w-9 rounded-[1px]" style={{ background: tint }} />
+                        </div>
                       ))}
                     </div>
                   </div>

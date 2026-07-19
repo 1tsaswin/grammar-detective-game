@@ -134,23 +134,30 @@ export function SettingsModal({ onClose }: { onClose: () => void }) {
           </Row>
 
           <Row icon={Type} label="Text Size">
-            <div className="flex gap-1.5">
-              {TEXT_SIZES.map((t, i) => (
-                <button
-                  key={t.id}
-                  onClick={() => selectTextSize(t.id)}
-                  aria-label={`Text size ${t.id}`}
-                  aria-pressed={textSize === t.id}
-                  className={`flex h-8 w-8 items-center justify-center rounded-full border text-[13px] ${
-                    textSize === t.id
-                      ? "border-crime-scene-red-bright bg-crime-scene-red-bright/20 text-crime-scene-red-bright"
-                      : "border-white/15 text-bone/50"
-                  }`}
-                  style={{ fontSize: 11 + i * 3 }}
-                >
-                  {t.label}
-                </button>
-              ))}
+            <div className="flex items-end gap-1.5">
+              {TEXT_SIZES.map((t, i) => {
+                const isSel = textSize === t.id;
+                return (
+                  <motion.button
+                    key={t.id}
+                    onClick={() => selectTextSize(t.id)}
+                    aria-label={`Text size ${t.id}`}
+                    aria-pressed={isSel}
+                    animate={{ y: isSel ? -3 : 0 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 28 }}
+                    className="flex h-8 w-9 items-center justify-center rounded-[2px] border"
+                    style={{
+                      fontSize: 11 + i * 3,
+                      background: isSel ? "var(--aged-paper-light)" : "transparent",
+                      borderColor: isSel ? "var(--crime-scene-red)" : "rgba(255,255,255,0.15)",
+                      color: isSel ? "var(--ink)" : "rgba(246,241,227,0.5)",
+                      boxShadow: isSel ? "0 2px 4px rgba(0,0,0,0.4)" : "none",
+                    }}
+                  >
+                    {t.label}
+                  </motion.button>
+                );
+              })}
             </div>
           </Row>
 
