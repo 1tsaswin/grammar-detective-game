@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Special+Elite&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* base materials */
+  --primary-noir: #0d0d0f;
+  --primary-noir-light: #1c1b1e;
+  --primary-noir-dark: #000000;
+
+  --secondary-noir: #2b241f;
+  --secondary-noir-light: #3d332b;
+  --secondary-noir-dark: #19140f;
+
+  --aged-paper: #e8dfc4;
+  --aged-paper-light: #f3ecd8;
+  --aged-paper-dark: #d2c19a;
+
+  --post-it-yellow: #d9c66a;
+  --post-it-yellow-light: #e8d98c;
+  --post-it-yellow-dark: #b89a4a;
+
+  --crime-scene-red: #7c2020;
+  --crime-scene-red-bright: #a52f28;
+  --crime-scene-red-dark: #4d1414;
+
+  --ink: #1c1a17;
+  --bone: #f6f1e3;
+
+  /* semantic aliases */
+  --surface-board: var(--secondary-noir);
+  --surface-board-alt: var(--secondary-noir-light);
+  --surface-paper: var(--aged-paper);
+  --surface-note: var(--post-it-yellow);
+  --text-on-dark: var(--bone);
+  --text-on-paper: var(--ink);
+  --accent-thread: var(--crime-scene-red-bright);
+  --accent-stamp: var(--crime-scene-red);
+
+  --texture-corkboard-bg:
+    radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1px, transparent 0),
+    repeating-linear-gradient(115deg, rgba(0, 0, 0, 0.07) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(25deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 6px),
+    radial-gradient(ellipse 70% 55% at 50% 18%, rgba(255, 214, 150, 0.12), transparent 65%);
+  --texture-corkboard-size: 5px 5px, auto, auto, 100% 100%;
+}
+
+@theme inline {
+  /* colors — Tailwind's `color` namespace needs the `--color-` prefix, so
+     these are separate vars that just point at the bare tokens above. */
+  --color-primary-noir: var(--primary-noir);
+  --color-primary-noir-light: var(--primary-noir-light);
+  --color-primary-noir-dark: var(--primary-noir-dark);
+  --color-secondary-noir: var(--secondary-noir);
+  --color-secondary-noir-light: var(--secondary-noir-light);
+  --color-secondary-noir-dark: var(--secondary-noir-dark);
+  --color-aged-paper: var(--aged-paper);
+  --color-aged-paper-light: var(--aged-paper-light);
+  --color-aged-paper-dark: var(--aged-paper-dark);
+  --color-post-it-yellow: var(--post-it-yellow);
+  --color-post-it-yellow-light: var(--post-it-yellow-light);
+  --color-post-it-yellow-dark: var(--post-it-yellow-dark);
+  --color-crime-scene-red: var(--crime-scene-red);
+  --color-crime-scene-red-bright: var(--crime-scene-red-bright);
+  --color-crime-scene-red-dark: var(--crime-scene-red-dark);
+  --color-ink: var(--ink);
+  --color-bone: var(--bone);
+
+  /* fonts/shadows — Tailwind's namespace prefix already matches the token
+     names 1:1, so these vars double as the bare --font- and --shadow-
+     custom properties used directly in inline styles. */
+  --font-handwriting: 'Caveat', cursive;
+  --font-typewriter: 'Special Elite', 'Courier New', monospace;
+  --font-officials: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+
+  --shadow-photo: 2px 7px 14px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  --shadow-pinned: 3px 11px 20px rgba(0, 0, 0, 0.55), 0 2px 5px rgba(0, 0, 0, 0.4);
+  --shadow-stacked: 6px 18px 34px rgba(0, 0, 0, 0.6), 2px 6px 12px rgba(0, 0, 0, 0.45);
+  --shadow-lifted: 4px 14px 26px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.18);
+  --shadow-pin-drop: 0 2px 3px rgba(0, 0, 0, 0.65);
+}
+
+.bg-corkboard {
+  background-color: var(--surface-board);
+  background-image: var(--texture-corkboard-bg);
+  background-size: var(--texture-corkboard-size);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-officials);
+}
+
+a { color: var(--crime-scene-red-bright); }
+a:hover { color: var(--crime-scene-red); }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes stampIn { 0% { opacity: 0; transform: scale(2.4) rotate(-3deg); } 55% { opacity: 1; transform: scale(0.9) rotate(-3deg); } 100% { opacity: 1; transform: scale(1) rotate(-3deg); } }
+@keyframes stampSlam { 0% { opacity: 0; transform: scale(3) rotate(-14deg); } 55% { opacity: 1; transform: scale(0.92) rotate(-8deg); } 75% { transform: scale(1.04) rotate(-6deg); } 100% { opacity: 1; transform: scale(1) rotate(-6deg); } }
+@keyframes pinBounce { 0% { opacity: 0; transform: translate(-50%, -14px) scale(0.6); } 60% { opacity: 1; transform: translate(-50%, 2px) scale(1.15); } 100% { transform: translate(-50%, 0) scale(1); } }
+@keyframes noteSettle { 0% { opacity: 0; transform: translateY(-16px) rotate(6deg); } 100% { opacity: 1; transform: translateY(0) rotate(0deg); } }
+@keyframes shakeX { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-7px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(4px); } }
+@keyframes glowPulse { 0%, 100% { box-shadow: var(--shadow-pin-drop), 0 0 0 rgba(165, 47, 40, 0); } 50% { box-shadow: var(--shadow-pin-drop), 0 0 14px rgba(165, 47, 40, 0.6); } }
